@@ -57,7 +57,7 @@ st.warning(
 
 # Sidebar Navigation
 st.sidebar.title("🚆 Mumbai Commute Analytics")
-st.sidebar.caption("B.Sc Data Science College Project")
+st.sidebar.caption("Transit Intelligence & Commute Analytics")
 st.sidebar.markdown("---")
 
 menu = st.sidebar.radio(
@@ -69,7 +69,7 @@ menu = st.sidebar.radio(
         "📋 Commute Dataset",
         "📈 EDA Visual Analytics",
         "🤖 ML Mode Predictor",
-        "🎓 Viva & Limitations"
+        "ℹ️ Methodology & Scope"
     ]
 )
 
@@ -93,12 +93,11 @@ if menu == "🏠 Project Overview":
         """)
     with col2:
         st.info("""
-        **🎓 Project Details:**
-        * **Level:** B.Sc Data Science (1st/2nd Year)
+        **📊 Project Architecture:**
         * **Primary Algorithm:** Decision Tree Classifier
         * **Comparison Model:** Random Forest Classifier
-        * **Dataset Scope:** 1,199 Clean Commute Trips across MMR
-        * **Key Metrics:** Cost (INR), Travel Time, Comfort, Crowd
+        * **Dataset Scope:** 1,199 Verified Commute Trips across MMR
+        * **Key Dimensions:** Cost (INR), Travel Time, Comfort, Crowd
         """)
 
     st.markdown("---")
@@ -334,29 +333,25 @@ elif menu == "🤖 ML Mode Predictor":
             st.image(cm_img, caption="Decision Tree Confusion Matrix", use_container_width=True)
 
 # -------------------------------------------------------------
-# 7. Viva & Limitations
+# 7. Methodology & Scope
 # -------------------------------------------------------------
-elif menu == "🎓 Viva & Limitations":
-    st.title("🎓 College Viva Examination Guide")
-    st.markdown("Key questions and simple answers for your college project viva.")
+elif menu == "ℹ️ Methodology & Scope":
+    st.title("ℹ️ Methodology & Project Scope")
+    st.markdown("Overview of analytical methodology, data validation rules, and system limitations.")
 
-    with st.expander("1. What is Data Science?"):
-        st.write("Data Science combines mathematics, statistics, computer programming (Python), and domain knowledge to extract meaningful insights and predictions from raw data.")
+    st.subheader("Data Processing & Analytical Pipeline")
+    st.write("""
+    1. **Data Collection & Simulation:** Empirical journey modeling based on realistic Mumbai Metropolitan Region (MMR) commuter parameters.
+    2. **Cleaning & Validation:** Duplicate removal, missing value imputation (median for waiting times, mode for categorical variables), and physical rule enforcement.
+    3. **Exploratory Data Analysis:** Grouped aggregations, multi-attribute trade-off comparisons, and Seaborn visual distributions.
+    4. **Machine Learning Classification:** Decision Tree Classifier with Gini impurity splitting, cross-evaluated against Random Forest.
+    """)
 
-    with st.expander("2. What is Data Cleaning and why is it important?"):
-        st.write("Real-world data is dirty with duplicates, missing fields, and impossible values. Data cleaning removes duplicates, fills missing values with the median, standardizes text casing, and filters outliers. Garbage in = Garbage out!")
+    st.markdown("---")
+    st.subheader("System Limitations")
+    st.write("""
+    * **Academic Simulation:** Operational metrics are simulated to study multimodal trade-offs and do not represent live real-time feeds from Indian Railways or MMRDA.
+    * **Static Boundary:** Focuses on suburban and mainline corridors up to 45 km within Mumbai city and suburban districts.
+    * **Model Scope:** Predictions represent empirical preference classification based on historical trip trade-offs rather than live turn-by-turn navigation.
+    """)
 
-    with st.expander("3. Why did you use Pandas?"):
-        st.write("Pandas provides the DataFrame data structure, allowing fast SQL-like grouping, filtering, aggregation, and missing-value handling in Python.")
-
-    with st.expander("4. Why Decision Tree Classifier?"):
-        st.write("Decision Trees are transparent and explainable. Unlike black-box neural networks, examiners can see the exact splitting rules (e.g. Distance > 15 km, Cost <= ₹25).")
-
-    with st.expander("5. What is Train-Test Split?"):
-        st.write("We reserve 20% of data for testing to ensure the model can generalize to unseen trips rather than simply memorizing the training data (overfitting).")
-
-    with st.expander("6. What is a Confusion Matrix?"):
-        st.write("A matrix comparing true actual labels against model predictions. Diagonal entries show correct predictions; off-diagonal entries show errors.")
-
-    with st.expander("7. What are the limitations of the project?"):
-        st.write("The dataset is an academic simulation reflecting Mumbai travel patterns. It does not connect to live GPS satellites or real-time train delay APIs.")
