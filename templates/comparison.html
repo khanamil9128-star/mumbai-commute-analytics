@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% set active_page = 'comparison' %}
+
+{% block title %}Mode Comparison | Mumbai Commute Analytics{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h2 class="fw-bold mb-1"><i class="bi bi-arrow-left-right text-primary me-2"></i>Transport Mode Comparison</h2>
+    <p class="text-muted mb-0">Detailed head-to-head empirical trade-off analysis: Metro vs Local Train vs Auto Rickshaw</p>
+</div>
+
+<!-- Comparison Cards Grid -->
+<div class="row g-4 mb-4">
+    <!-- Metro Card -->
+    <div class="col-lg-4">
+        <div class="card h-100 shadow-sm border-top border-4 border-success">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="fw-bold text-success mb-0"><i class="bi bi-train-lightrail-front me-2"></i>Metro</h4>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1">Modern Transit</span>
+                </div>
+                <p class="text-muted small">
+                    High reliability, punctual schedules, fully air-conditioned, moderate fares, immune to street traffic jams.
+                </p>
+                <ul class="list-group list-group-flush small mb-3">
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Typical Distance:</span> <strong>3.0 – 26.0 km</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Average Fare:</span> <strong class="text-success">₹20 – ₹60</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Delays:</span> <strong>Minimal (1–3 min)</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Comfort Score:</span> <strong>4.5 / 5.0 (High)</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Crowd Stress:</span> <strong>Moderate to High in peak</strong>
+                    </li>
+                </ul>
+                <div class="alert alert-success-subtle border-0 small mb-0 py-2">
+                    <i class="bi bi-check-circle-fill me-1"></i> <strong>Best For:</strong> Commuters prioritizing punctuality, comfort, and AC travel over medium suburban distances.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Local Train Card -->
+    <div class="col-lg-4">
+        <div class="card h-100 shadow-sm border-top border-4 border-primary">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="fw-bold text-primary mb-0"><i class="bi bi-train-front me-2"></i>Mumbai Local</h4>
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1">Mumbai Lifeline</span>
+                </div>
+                <p class="text-muted small">
+                    Unrivalled high passenger capacity, hyper-affordable fares, rapid long-distance coverage across Western, Central & Harbour corridors.
+                </p>
+                <ul class="list-group list-group-flush small mb-3">
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Typical Distance:</span> <strong>8.0 – 42.0+ km</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Average Fare:</span> <strong class="text-primary">₹10 – ₹25</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Delays:</span> <strong>Moderate (4–12 min)</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Comfort Score:</span> <strong>2.5 / 5.0 (Basic)</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Crowd Stress:</span> <strong>Extreme during peak rush</strong>
+                    </li>
+                </ul>
+                <div class="alert alert-primary-subtle border-0 small mb-0 py-2">
+                    <i class="bi bi-check-circle-fill me-1"></i> <strong>Best For:</strong> Long-distance daily office commutes needing minimum cost and maximum speed.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auto Rickshaw Card -->
+    <div class="col-lg-4">
+        <div class="card h-100 shadow-sm border-top border-4 border-warning">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="fw-bold text-warning-emphasis mb-0"><i class="bi bi-taxi-front me-2"></i>Auto Rickshaw</h4>
+                    <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-3 py-1">First/Last Mile</span>
+                </div>
+                <p class="text-muted small">
+                    Personalized point-to-point mobility in suburbs, private seating, zero crowd congestion, but vulnerable to road traffic bottlenecks and higher fares.
+                </p>
+                <ul class="list-group list-group-flush small mb-3">
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Typical Distance:</span> <strong>1.5 – 14.0 km</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Average Fare:</span> <strong class="text-danger">₹40 – ₹250</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Delays:</span> <strong>High in peak street traffic</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Comfort Score:</span> <strong>3.2 / 5.0 (Moderate)</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <span>Crowd Stress:</span> <strong>Low (Private Cabin)</strong>
+                    </li>
+                </ul>
+                <div class="alert alert-warning-subtle border-0 small mb-0 py-2">
+                    <i class="bi bi-check-circle-fill me-1"></i> <strong>Best For:</strong> Short-hop trips, luggage transfers, or reaching railway/metro stations directly.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Radar / Multi-Attribute Comparison Chart -->
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card shadow-sm p-4 h-100">
+            <h5 class="fw-bold mb-3"><i class="bi bi-radar me-2"></i>Multi-Attribute Trade-off Radar Chart</h5>
+            <div style="height: 340px; position: relative;">
+                <canvas id="radarChart"></canvas>
+            </div>
+            <div class="text-muted small text-center mt-2">
+                Scores normalized on a 0-10 scale for visual trade-off representation.
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card shadow-sm p-4 h-100">
+            <h5 class="fw-bold mb-3"><i class="bi bi-clock-history me-2"></i>Peak vs Non-Peak Travel Time Difference</h5>
+            <div style="height: 340px; position: relative;">
+                <canvas id="peakComparisonChart"></canvas>
+            </div>
+            <div class="text-muted small text-center mt-2">
+                Demonstrates how road traffic impacts Autos more severely than grade-separated Metro.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Multi-Attribute Radar Chart
+    new Chart(document.getElementById('radarChart'), {
+        type: 'radar',
+        data: {
+            labels: ['Affordability', 'Speed', 'Comfort', 'Punctuality', 'Low Crowding', 'Coverage'],
+            datasets: [
+                {
+                    label: 'Metro',
+                    data: [6.5, 8.5, 9.5, 9.0, 6.0, 7.0],
+                    borderColor: '#198754',
+                    backgroundColor: 'rgba(25, 135, 84, 0.2)'
+                },
+                {
+                    label: 'Local Train',
+                    data: [9.8, 8.8, 4.5, 6.5, 3.0, 9.5],
+                    borderColor: '#0d6efd',
+                    backgroundColor: 'rgba(13, 110, 253, 0.2)'
+                },
+                {
+                    label: 'Auto Rickshaw',
+                    data: [3.5, 5.0, 6.5, 5.5, 9.5, 5.0],
+                    borderColor: '#ffc107',
+                    backgroundColor: 'rgba(255, 193, 7, 0.2)'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 10
+                }
+            }
+        }
+    });
+
+    // Peak vs Non-Peak Grouped Bar
+    new Chart(document.getElementById('peakComparisonChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Auto', 'Local', 'Metro'],
+            datasets: [
+                {
+                    label: 'Non-Peak (min)',
+                    data: [28.4, 48.2, 33.6],
+                    backgroundColor: '#6c757d'
+                },
+                {
+                    label: 'Peak Hour (min)',
+                    data: [42.1, 56.8, 36.2],
+                    backgroundColor: '#dc3545'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Average Travel Time (min)' }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
+

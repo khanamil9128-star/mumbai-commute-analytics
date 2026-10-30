@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% set active_page = 'prediction' %}
+
+{% block title %}ML Predictor | Mumbai Commute Analytics{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h2 class="fw-bold mb-1"><i class="bi bi-cpu text-primary me-2"></i>Machine Learning Mode Predictor</h2>
+    <p class="text-muted mb-0">Predict the most suitable transport mode based on commute parameters using a trained Decision Tree Classifier</p>
+</div>
+
+<!-- Academic Disclaimer Alert -->
+<div class="alert alert-info border-info-subtle d-flex align-items-center mb-4">
+    <i class="bi bi-info-circle-fill fs-4 me-3 text-info"></i>
+    <div class="small">
+        <strong>Academic Understanding for College Viva:</strong> This Machine Learning model does not claim to dictate the objectively "best" transport choice for every citizen. Instead, it classifies and predicts transit mode suitability by learning multi-dimensional trade-off patterns from our simulated academic dataset.
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Left Column: Prediction Input Form -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm p-4 h-100">
+            <h5 class="fw-bold mb-3"><i class="bi bi-sliders2 me-2"></i>Enter Commute Parameters</h5>
+            <form action="{{ url_for('prediction') }}" method="POST">
+                <div class="row g-3">
+                    <!-- Distance -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Distance (km)</label>
+                        <input type="number" step="0.5" min="1" max="100" class="form-control" name="distance" value="{{ form_data.distance if form_data else '12.0' }}" required>
+                        <small class="text-muted">e.g. 12 km (Bandra to Andheri)</small>
+                    </div>
+
+                    <!-- Budget / Willing Cost -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Target Cost Budget (INR ₹)</label>
+                        <input type="number" min="5" max="1500" class="form-control" name="cost" value="{{ form_data.cost if form_data else '35' }}" required>
+                        <small class="text-muted">e.g. ₹20 (Local) vs ₹40 (Metro)</small>
+                    </div>
+
+                    <!-- Travel Time -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Estimated Travel Time (min)</label>
+                        <input type="number" min="5" max="240" class="form-control" name="travel_time" value="{{ form_data.travel_time if form_data else '35' }}" required>
+                    </div>
+
+                    <!-- Waiting Time -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Tolerable Waiting Time (min)</label>
+                        <input type="number" min="0" max="60" class="form-control" name="waiting_time" value="{{ form_data.waiting_time if form_data else '5' }}" required>
+                    </div>
+
+                    <!-- Peak Hour -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Peak Hour Commute?</label>
+                        <select class="form-select" name="peak_hour">
+                            <option value="Yes" {% if form_data and form_data.peak_hour == 'Yes' %}selected{% endif %}>Yes (08:30-11:30 / 17:30-20:30)</option>
+                            <option value="No" {% if form_data and form_data.peak_hour == 'No' %}selected{% endif %}>No (Off-Peak Hours)</option>
+                        </select>
+                    </div>
+
+                    <!-- Crowd Level -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Crowd Preference/Tolerance</label>
+                        <select class="form-select" name="crowd_level">
+                            <option value="Low" {% if form_data and form_data.crowd_level == 'Low' %}selected{% endif %}>Low (Private/Spacious)</option>
+                            <option value="Medium" {% if form_data and form_data.crowd_level == 'Medium' %}selected{% endif %}>Medium (Seats Available)</option>
+                            <option value="High" {% if not form_data or form_data.crowd_level == 'High' %}selected{% endif %}>High (Standing Packed)</option>
+                            <option value="Extreme" {% if form_data and form_data.crowd_level == 'Extreme' %}selected{% endif %}>Extreme (Super Dense Crush)</option>
+                        </select>
+                    </div>
+
+                    <!-- Weather -->
+                    <div class="col-md-4">
+                        <label class="form-label small fw-semibold">Weather</label>
+                        <select class="form-select" name="weather">
+                            <option value="Clear" {% if not form_data or form_data.weather == 'Clear' %}selected{% endif %}>Clear</option>
+                            <option value="Rainy" {% if form_data and form_data.weather == 'Rainy' %}selected{% endif %}>Monsoon / Rainy</option>
+                            <option value="Humid" {% if form_data and form_data.weather == 'Humid' %}selected{% endif %}>Humid</option>
+                            <option value="Cloudy" {% if form_data and form_data.weather == 'Cloudy' %}selected{% endif %}>Cloudy</option>
+                        </select>
+                    </div>
+
+                    <!-- Expected Delay -->
+                    <div class="col-md-4">
+                        <label class="form-label small fw-semibold">Acceptable Delay (min)</label>
+                        <input type="number" min="0" max="60" class="form-control" name="delay" value="{{ form_data.delay if form_data else '3' }}" required>
+                    </div>
+
+                    <!-- Comfort Rating -->
+                    <div class="col-md-4">
+                        <label class="form-label small fw-semibold">Desired Comfort (1-5)</label>
+                        <select class="form-select" name="comfort">
+                            <option value="1">1 (Basic survival)</option>
+                            <option value="2">2 (Economy)</option>
+                            <option value="3">3 (Standard)</option>
+                            <option value="4" selected>4 (Good / AC)</option>
+                            <option value="5">5 (Premium AC)</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg w-100 shadow-sm">
+                            <i class="bi bi-lightning-charge-fill me-1"></i> Predict Suitable Transport Mode
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Right Column: Prediction Output & Model Evaluation -->
+    <div class="col-lg-6">
+        <!-- Result Box -->
+        {% if prediction %}
+        <div class="card p-4 shadow-sm mb-4 border-2 {% if prediction == 'Metro' %}border-success{% elif prediction == 'Local' %}border-primary{% else %}border-warning{% endif %}">
+            <div class="text-center py-3">
+                <span class="text-muted text-uppercase small fw-bold">Machine Learning Recommendation</span>
+                <h1 class="display-5 fw-bold my-2 {% if prediction == 'Metro' %}text-success{% elif prediction == 'Local' %}text-primary{% else %}text-warning-emphasis{% endif %}">
+                    {% if prediction == 'Metro' %}
+                        <i class="bi bi-train-lightrail-front me-2"></i>Metro
+                    {% elif prediction == 'Local' %}
+                        <i class="bi bi-train-front me-2"></i>Mumbai Local
+                    {% else %}
+                        <i class="bi bi-taxi-front me-2"></i>Auto Rickshaw
+                    {% endif %}
+                </h1>
+                <p class="text-muted small mb-0 px-3">
+                    Based on your input parameters (Distance: {{ form_data.distance }} km, Budget: ₹{{ form_data.cost }}, Time: {{ form_data.travel_time }} min), the Decision Tree classifier selected <strong>{{ prediction }}</strong> as the best fit.
+                </p>
+            </div>
+        </div>
+        {% else %}
+        <div class="card p-4 shadow-sm mb-4 text-center border-dashed">
+            <div class="py-4 text-muted">
+                <i class="bi bi-cpu fs-1 mb-2 d-block text-secondary"></i>
+                <h6 class="fw-bold">Ready to Predict</h6>
+                <p class="small mb-0">Fill in the commute parameters on the left and click "Predict" to see the Machine Learning decision.</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Model Evaluation Card -->
+        <div class="card shadow-sm p-4">
+            <h5 class="fw-bold mb-3"><i class="bi bi-check2-circle text-success me-2"></i>Model Evaluation Metrics</h5>
+            <div class="row g-2 text-center mb-3">
+                <div class="col-6">
+                    <div class="p-3 bg-light rounded border">
+                        <small class="text-muted fw-bold d-block">Decision Tree Accuracy</small>
+                        <span class="fs-4 fw-bold text-primary">{{ metrics.dt_accuracy }}%</span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="p-3 bg-light rounded border">
+                        <small class="text-muted fw-bold d-block">Random Forest Comparison</small>
+                        <span class="fs-4 fw-bold text-success">{{ metrics.rf_accuracy }}%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion" id="mlAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTree">
+                            <i class="bi bi-diagram-2 me-2"></i> Why Decision Tree Classifier?
+                        </button>
+                    </h2>
+                    <div id="collapseTree" class="accordion-collapse collapse" data-bs-parent="#mlAccordion">
+                        <div class="accordion-body small text-muted">
+                            A Decision Tree is ideal for academic projects because it is transparent and explainable. Unlike black-box neural networks, each decision node represents an intuitive rule (e.g. <code>Distance > 14 km</code>, <code>Cost <= 25 INR</code>) that students can explain step-by-step to viva examiners.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMatrix">
+                            <i class="bi bi-grid-3x3 me-2"></i> Confusion Matrix & Feature Importance
+                        </button>
+                    </h2>
+                    <div id="collapseMatrix" class="accordion-collapse collapse" data-bs-parent="#mlAccordion">
+                        <div class="accordion-body p-2 text-center">
+                            <img src="{{ url_for('static', filename='images/confusion_matrix.png') }}" class="img-fluid rounded border mb-2" alt="Confusion Matrix">
+                            <img src="{{ url_for('static', filename='images/feature_importance.png') }}" class="img-fluid rounded border" alt="Feature Importance">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

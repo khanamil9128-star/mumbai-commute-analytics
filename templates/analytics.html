@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% set active_page = 'analytics' %}
+
+{% block title %}EDA Analytics | Mumbai Commute Analytics{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h2 class="fw-bold mb-1"><i class="bi bi-graph-up-arrow text-primary me-2"></i>Exploratory Data Analysis (EDA)</h2>
+    <p class="text-muted mb-0">Visual analysis generated using Matplotlib and Seaborn exploring key commute dynamics</p>
+</div>
+
+<!-- Key Research Findings Banners -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card h-100 border-start border-4 border-success p-3 bg-white shadow-sm">
+            <h6 class="fw-bold text-success mb-1"><i class="bi bi-speedometer me-1"></i> Speed & Distance Insight</h6>
+            <p class="small text-muted mb-0">
+                Local trains offer the lowest minutes per km over long journeys (>15 km). For shorter trips (<5 km), wait times and access walks make autos competitive despite traffic.
+            </p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 border-start border-4 border-primary p-3 bg-white shadow-sm">
+            <h6 class="fw-bold text-primary mb-1"><i class="bi bi-wallet2 me-1"></i> Cost Efficiency Insight</h6>
+            <p class="small text-muted mb-0">
+                Mumbai Local train is 85% cheaper than Auto Rickshaws and 60% cheaper than Metro. It remains the most economical public transport choice in the city.
+            </p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 border-start border-4 border-danger p-3 bg-white shadow-sm">
+            <h6 class="fw-bold text-danger mb-1"><i class="bi bi-people-fill me-1"></i> Congestion & Peak Hours</h6>
+            <p class="small text-muted mb-0">
+                Peak hours increase Auto travel time by ~48% due to street bottlenecks, whereas Metro travel time is barely affected (+7%), though passenger crowding increases.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- EDA Charts Display Grid -->
+<div class="row g-4">
+    <!-- Chart 1 -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white py-3">
+                <h6 class="fw-bold mb-0">1. Average Travel Time & Commute Cost by Mode</h6>
+            </div>
+            <div class="card-body text-center p-3">
+                <img src="{{ url_for('static', filename='images/travel_time_and_cost.png') }}" class="img-fluid rounded border" alt="Travel Time and Cost">
+                <p class="text-muted small mt-2 mb-0">
+                    Bar charts showing average travel duration in minutes and average financial cost in Indian Rupees.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart 2 -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white py-3">
+                <h6 class="fw-bold mb-0">2. Distance vs Travel Time Correlation</h6>
+            </div>
+            <div class="card-body text-center p-3">
+                <img src="{{ url_for('static', filename='images/distance_vs_time.png') }}" class="img-fluid rounded border" alt="Distance vs Time">
+                <p class="text-muted small mt-2 mb-0">
+                    Scatter plot with linear regression line showing travel time scaling per distance across modes.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart 3 -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white py-3">
+                <h6 class="fw-bold mb-0">3. Distance vs Cost (Fare Dynamics)</h6>
+            </div>
+            <div class="card-body text-center p-3">
+                <img src="{{ url_for('static', filename='images/distance_vs_cost.png') }}" class="img-fluid rounded border" alt="Distance vs Cost">
+                <p class="text-muted small mt-2 mb-0">
+                    Shows that Auto fares scale steeply with distance, while Local train fares remain exceptionally low.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart 4 -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white py-3">
+                <h6 class="fw-bold mb-0">4. Peak-Hour Travel Time Impact</h6>
+            </div>
+            <div class="card-body text-center p-3">
+                <img src="{{ url_for('static', filename='images/peak_hour_impact.png') }}" class="img-fluid rounded border" alt="Peak Hour Impact">
+                <p class="text-muted small mt-2 mb-0">
+                    Comparing travel duration during peak (08:30-11:30 & 17:30-20:30) vs non-peak hours.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart 5 -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white py-3">
+                <h6 class="fw-bold mb-0">5. Crowd Level Distribution Across Modes</h6>
+            </div>
+            <div class="card-body text-center p-3">
+                <img src="{{ url_for('static', filename='images/crowd_distribution.png') }}" class="img-fluid rounded border" alt="Crowd Distribution">
+                <p class="text-muted small mt-2 mb-0">
+                    Categorical count of Low, Medium, High, and Extreme crowd frequencies reported by commuters.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart 6 -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white py-3">
+                <h6 class="fw-bold mb-0">6. Comfort & User Satisfaction Ratings</h6>
+            </div>
+            <div class="card-body text-center p-3">
+                <img src="{{ url_for('static', filename='images/ratings_distribution.png') }}" class="img-fluid rounded border" alt="Ratings Distribution">
+                <p class="text-muted small mt-2 mb-0">
+                    Boxplots illustrating the distribution of commuter comfort and overall trip satisfaction.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
