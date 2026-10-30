@@ -11,6 +11,17 @@ represent official Mumbai transport statistics."
 """
 
 import os
+import sys
+
+# If invoked via Streamlit Cloud (e.g. streamlit run app.py), seamlessly delegate to Streamlit UI
+try:
+    import streamlit as st
+    if st.runtime.exists():
+        import streamlit_app
+        sys.exit(0)
+except Exception:
+    pass
+
 import pickle
 import pandas as pd
 import numpy as np
@@ -227,7 +238,16 @@ def about():
     return render_template('about.html')
 
 if __name__ == '__main__':
-    # Run development server on port 5000
+    # Check if executed inside Streamlit runtime
+    try:
+        import streamlit as st
+        if st.runtime.exists():
+            import streamlit_app
+            sys.exit(0)
+    except Exception:
+        pass
+
+    # Run development Flask server on port 5000
     print("=" * 65)
     print("Starting Mumbai Commute Analytics Web Server...")
     print("Access the dashboard at: http://127.0.0.1:5000")
