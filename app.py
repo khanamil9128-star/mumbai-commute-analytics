@@ -13,22 +13,26 @@ represent official Mumbai transport statistics."
 import os
 import sys
 
-# If invoked via Streamlit Cloud (e.g. streamlit run app.py), seamlessly delegate to Streamlit UI
+# Check if running under Streamlit (e.g. on Streamlit Cloud)
+is_streamlit = False
 try:
     import streamlit as st
     if st.runtime.exists():
-        import streamlit_app
-        sys.exit(0)
+        is_streamlit = True
 except Exception:
-    pass
+    is_streamlit = False
 
-import pickle
-import pandas as pd
-import numpy as np
-from flask import Flask, render_template, request, redirect, url_for, flash
+if is_streamlit:
+    import streamlit_app
+    streamlit_app.run_streamlit_ui()
+else:
+    import pickle
+    import pandas as pd
+    import numpy as np
+    from flask import Flask, render_template, request, redirect, url_for, flash
 
-app = Flask(__name__)
-app.secret_key = "mumbai-commute-bsc-datascience-secret-key"
+    app = Flask(__name__)
+    app.secret_key = "mumbai-commute-datascience-secret-key"
 
 DATA_PATH = os.path.join("data", "commute_data_cleaned.csv")
 MODEL_PATH = os.path.join("model", "commute_model.pkl")
@@ -238,18 +242,10 @@ def about():
     return render_template('about.html')
 
 if __name__ == '__main__':
-    # Check if executed inside Streamlit runtime
-    try:
-        import streamlit as st
-        if st.runtime.exists():
-            import streamlit_app
-            sys.exit(0)
-    except Exception:
-        pass
-
-    # Run development Flask server on port 5000
-    print("=" * 65)
-    print("Starting Mumbai Commute Analytics Web Server...")
-    print("Access the dashboard at: http://127.0.0.1:5000")
-    print("=" * 65)
-    app.run(debug=True, port=5000)
+    if not is_streamlit:
+        # Run development Flask server on port 5000
+        print("=" * 65)
+        print("Starting Mumbai Commute Analytics Web Server...")
+        print("Access the dashboard at: http://127.0.0.1:5000")
+        print("=" * 65)
+        app.run(debug=True, port=5000)
